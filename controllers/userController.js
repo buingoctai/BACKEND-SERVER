@@ -6,6 +6,6 @@ exports.submitUserData = async (req, res, next) => {
   request.get(python_url + "/userData_classification").end((err, data) => {
     if (err) res.send(err);
     const response = JSON.parse(data.text);
-    res.status(200).send(response);
+    res.status(200).send({ predictiveTech: response, predictiveAdd: response });
   });
 };
