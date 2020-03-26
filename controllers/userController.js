@@ -9,13 +9,14 @@ exports.submitUserData = async (req, res, next) => {
 
   // if
   if (isStringTech || isStringAdd) {
-    submittedUserDataHandling({ userName: "hihihihiiiiiiiiiii" })
-      .then((res) => {
-        res.status(200).send(res);
+    await submittedUserDataHandling({ userName: "hihihihiiiiiiiiiii" })
+      .then(resp => {
+        console.log("resp=", resp);
       })
-      .catch(() => {
-        res.status(400).send({});
+      .catch(err => {
+        console.log("err=", err);
       });
+
   }
 
 
