@@ -4,7 +4,7 @@ const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 
 const userRoutes = require("./routes/userRoutes");
-const AppError = require('./utils/appError');
+const AppError = require("./utils/appError");
 // Create app and integrate with many middleware
 const app = express();
 app.use(cors()); // All Cross-Origin request
@@ -22,6 +22,7 @@ app.use("/api", limiter); // Limit request from the same API
 app.use("/user/", userRoutes);
 // Blog
 app.use("*", (req, res, next) => {
+  console.log("URL SAI");
   const err = new AppError(404, "fail", "undefined route");
   res.send(err);
 });
