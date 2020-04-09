@@ -4,6 +4,8 @@ const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 
 const userRoutes = require("./routes/userRoutes");
+const adminRoutes = require("./routes/adminRoutes");
+const blogRoutes = require("./routes/blogRoutes");
 const AppError = require("./utils/appError");
 // Create app and integrate with many middleware
 const app = express();
@@ -13,13 +15,15 @@ app.use(express.json());
 const limiter = rateLimit({
   max: 150,
   windowMs: 60 * 60 * 1000,
-  message: "Qúa nhiều yêu cầu cho chức năng này. Vui lòng thử lại khi khác!"
+  message: "Qúa nhiều yêu cầu cho chức năng này. Vui lòng thử lại khi khác!",
 });
 app.use("/api", limiter); // Limit request from the same API
 
 // Routes
 // User
-app.use("/user/", userRoutes);
+app.use("/user", userRoutes);
+app.use("/admin", adminRoutes);
+app.use("/blog", blogRoutes);
 // Blog
 app.use("*", (req, res, next) => {
   console.log("URL SAI");

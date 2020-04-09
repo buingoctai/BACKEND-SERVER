@@ -1,32 +1,29 @@
-const jwt = require("jsonwebtoken");
 const uuidv4 = require("uuid/v4");
-const constants = require("../utils/constants");
+const jwt = require("jsonwebtoken");
 const sql = require("mssql");
+
+const constants = require("../utils/constants");
+const {
+  PYTHON_SERVER_URL,
+  INSERT_USER_DATA,
+  USER_FIND,
+  DATABASE_SERVER_CONFIG
+} = constants;
 
 exports.submitUserData = async (req, res, next) => {
   const request = require("superagent");
   const { userName, fbUrl, techKnowledge, addKnowledge } = req.body;
   const isStringTech = typeof techKnowledge === "string";
   const isStringAdd = typeof addKnowledge === "string";
-  const python_url = constants.PYTHON_SERVER_URL;
-
-  const config = {
-    user: "taibn1",
-    password: "LTD1996@",
-    database: "The Content Collection App",
-    port: 1433,
-    server: "35.240.162.28"
-  };
   const id = uuidv4();
-  let token = "";
 
   if (isStringTech && isStringAdd) {
     // Saving to database to users table
-    sql.connect(config, err => {
+    sql.connect(DATABASE_SERVER_CONFIG, err => {
       if (err) console.log(err);
       const request = new sql.Request();
       request.query(
-        constants.INSERT_QUERY.replace("IdValue", id)
+        INSERT_USER_DATA.replace("IdValue", id)
           .replace("UserNameValue", userName)
           .replace("FbUrlValue", fbUrl)
           .replace("TechTxtValue", techKnowledge)
@@ -38,7 +35,7 @@ exports.submitUserData = async (req, res, next) => {
     });
     // Call python server
     request
-      .post(python_url + "/userData_classification")
+      .post(PYTHON_SERVER_URL + "/userData_classification")
       .send({
         list: [
           { data: techKnowledge, fileName: "predictiveTech" },
@@ -83,11 +80,9 @@ exports.submitUserData = async (req, res, next) => {
             labels: ["Marketing", "Leader", "Sales"]
           };
         }
-        if (techHandler.classified && addHandler.classified) {
-          token = jwt.sign({ id: id }, "SECET_KEY", {
-            expiresIn: "1h"
-          });
-        }
+        const token = jwt.sign({ id: id }, "SECET_KEY", {
+          expiresIn: "1h"
+        });
         res.status(200).send({ techHandler, addHandler, token });
       });
   } else {
@@ -103,8 +98,8 @@ exports.submitUserData = async (req, res, next) => {
         labels: addKnowledge
       }
     };
-    token = jwt.sign({ id: id }, "SECET_KEY", { expiresIn: "1h" });
-    res.status(200).send({ ...responseChoosing, token });
+
+    res.status(200).send({ ...responseChoosing });
   }
 };
 
@@ -113,8 +108,8 @@ exports.auhtencation = async (req, res) => {
     headers: { authorization }
   } = req;
   const token = authorization.split(" ")[1];
+
   jwt.verify(token, "SECET_KEY", (err, data) => {
-    console.log(err, data);
     if (err) {
       return res.json({
         success: false,
@@ -127,6 +122,17 @@ exports.auhtencation = async (req, res) => {
 };
 
 exports.getProfile = async (req, res) => {
-  console.log("in getProfle, req=", req);
-  return res.json(req);
+  const { userId } = req.body;
+
+  sql.connect(DATABASE_SERVER_CONFIG, err => {
+    if (err) res.status(500).send({});
+    const request = new sql.Request();
+    request.query(USER_FIND.replace("IdValue", userId), (err, data) => {
+      if (err) res.status(500).send();
+      const {
+        recordset: [userData]
+      } = data;
+      res.json(userData);
+    });
+  });
 };
