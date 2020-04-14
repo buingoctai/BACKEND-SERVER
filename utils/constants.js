@@ -4,19 +4,29 @@ const INSERT_USER_DATA =
 const USER_FIND = "SELECT * FROM Users WHERE Id='IdValue'";
 const INSERT_ARTICLE =
   "INSERT INTO Articles (Id, Author, Title, Content, Topic,SubmitDate, ImageUrl) VALUES ('IdValue',N'AuthorValue',N'TitleValue',N'ContentValue','TopicValue','SubmitDateValue','ImageValue')";
-const ARTICLE_FIND = "SELECT * FROM Articles ORDER BY SubmitDate DESC";
+const FIND_MAIN_ARTICLE = "SELECT * FROM Articles ORDER BY SubmitDate DESC";
+const FIND_FEATURED_ARTICLE =
+  "SELECT TOP 1 * FROM Articles WHERE Articles.Topic='LabelValue' ORDER BY SubmitDate DESC";
+const INSERT_PERSONALIZED_INFORMS =
+  "INSERT INTO PersonalizedInforms (UserId,TechList,AddList) VALUES ('UserIdValue','TechListValue','AddListValue')";
+const COUNT_USERNAME_OR_FBURL =
+  "SELECT COUNT(*) FROM Users WHERE Users.UserName='UserNameValue' OR Users.FbUrl='FbUrlValue'";
+
 const DATABASE_SERVER_CONFIG = {
   user: "taibn1",
   password: "LTD1996@",
   database: "The Content Collection App",
   port: 1433,
-  server: "35.240.162.28",
+  server: "127.0.0.1",
 };
 module.exports = {
   PYTHON_SERVER_URL,
   INSERT_USER_DATA,
   USER_FIND,
   INSERT_ARTICLE,
-  ARTICLE_FIND,
+  FIND_MAIN_ARTICLE,
+  FIND_FEATURED_ARTICLE,
+  INSERT_PERSONALIZED_INFORMS,
+  COUNT_USERNAME_OR_FBURL,
   DATABASE_SERVER_CONFIG,
 };

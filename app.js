@@ -9,7 +9,21 @@ const blogRoutes = require("./routes/blogRoutes");
 const AppError = require("./utils/appError");
 // Create app and integrate with many middleware
 const app = express();
-app.use(cors()); // All Cross-Origin request
+
+var corsOptions = {
+  origin: "*",
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
+// app.use(function (req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept"
+//   );
+//   next();
+// });
 app.use(helmet()); // Set security HTTP headers
 app.use(express.json());
 const limiter = rateLimit({
