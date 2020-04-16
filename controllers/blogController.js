@@ -4,6 +4,7 @@ const constants = require("../utils/constants");
 const {
   FIND_MAIN_ARTICLE,
   FIND_FEATURED_ARTICLE,
+  FIND_ARTICLE_AS_PAGE,
   DATABASE_SERVER_CONFIG,
 } = constants;
 
@@ -36,7 +37,6 @@ exports.getFeaturedPosts = async (req, res) => {
           FIND_FEATURED_ARTICLE.replace("LabelValue", item),
           (err, data) => {
             if (err) reject(err);
-            console.log("data=", data);
             const {
               recordset: [postData],
             } = data;
@@ -52,4 +52,27 @@ exports.getFeaturedPosts = async (req, res) => {
     });
   });
   temporyFunc.then((data) => res.json(data)).catch((err) => res.json(err));
+};
+
+exports.getAllPost = async (req, res) => {
+  const {
+    paging: { pageIndex, pageSize },
+    orderList: { orderType, orderBy },
+  } = req.body;
+
+  sql.connect(FIND_ARTICLE_AS_PAGE, (err) => {
+    if (err) res.status(500).send({});
+    const request = new sql.Request();
+    request.query(
+      FIND_ARTICLE_AS_PAGE.replace("orderByValue", orderBy)
+        .replace("orderTypeValue", orderType)
+        .replace("startValue", pageSize * (pageIndex - 1))
+        .replace("pageSizeValue", pageSize),
+      (err, data) => {
+        if (err) res.status(500).send();
+        const { recordset } = data;
+        res.json(recordset);
+      }
+    );
+  });
 };
