@@ -8,7 +8,7 @@ const {
   INSERT_USER_DATA,
   USER_FIND,
   INSERT_PERSONALIZED_INFORMS,
-  DATABASE_SERVER_CONFIG,
+  DATABASE_SERVER_CONFIG_DEV,
 } = constants;
 
 exports.submitUserData = async (req, res, next) => {
@@ -20,7 +20,7 @@ exports.submitUserData = async (req, res, next) => {
 
   if (isStringTech && isStringAdd) {
     // Saving to database to Users table
-    sql.connect(DATABASE_SERVER_CONFIG, (err) => {
+    sql.connect(DATABASE_SERVER_CONFIG_DEV, (err) => {
       if (err) console.log(err);
       const request = new sql.Request();
       // Check value exist (UserName & FbUrl) in Users table
@@ -124,7 +124,7 @@ exports.submitUserData = async (req, res, next) => {
 
     // Insert personalized informs
     if (techHandler.classified && addHandler.classified) {
-      sql.connect(DATABASE_SERVER_CONFIG, (err) => {
+      sql.connect(DATABASE_SERVER_CONFIG_DEV, (err) => {
         if (err) console.log(err);
         const request = new sql.Request();
         request.query(
@@ -140,7 +140,7 @@ exports.submitUserData = async (req, res, next) => {
     res.status(200).send({ techHandler, addHandler, token });
   } else {
     // Insert personalized informs
-    sql.connect(DATABASE_SERVER_CONFIG, (err) => {
+    sql.connect(DATABASE_SERVER_CONFIG_DEV, (err) => {
       if (err) console.log(err);
       const request = new sql.Request();
       request.query(
@@ -189,7 +189,7 @@ exports.auhtencation = async (req, res) => {
 exports.getProfile = async (req, res) => {
   const { userId } = req.body;
 
-  sql.connect(DATABASE_SERVER_CONFIG, (err) => {
+  sql.connect(DATABASE_SERVER_CONFIG_DEV, (err) => {
     if (err) res.status(500).send({});
     const request = new sql.Request();
     request.query(USER_FIND.replace("IdValue", userId), (err, data) => {

@@ -6,6 +6,9 @@ info:
   version: "1.0.0"
 host: "nodejs-server-273711.appspot.com"
 # [END swagger]
+x-google-endpoints:
+  - name: "nodejs-server-273711.appspot.com"
+    allowCors: "true"
 consumes:
   - "application/json"
 produces:
@@ -97,6 +100,26 @@ paths:
       responses:
         200:
           description: "Response for submit post"
+  "/webhook":
+    get:
+      description: "handle verify from fb dev app"
+      operationId: "handle verify from fb dev app"
+      responses:
+        200:
+          description: "Response for verify"
+    post:
+      description: "handle msg from fb dev app"
+      operationId: "handle msg from fb dev app"
+      responses:
+        200:
+          description: "Response for submit post"
+  "/webhook/sendMsg":
+    post:
+      description: "handle send msg to fb dev app"
+      operationId: "handle send msg to fb dev app"
+      responses:
+        200:
+          description: "Response for send Msg "
 definitions:
   SubmitUserDataParams:
     type: "object"
