@@ -4,6 +4,7 @@ const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const app = express();
 
+app.options("*", cors());
 app.use(cors());
 app.use((req, res, next) => {
   console.log("in set header");
