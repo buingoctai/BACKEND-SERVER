@@ -36,12 +36,10 @@ const limiter = rateLimit({
 app.use("/api", limiter); // Limit request from the same API
 
 // Routes
-// User
 app.use("/user", userRoutes);
 app.use("/admin", adminRoutes);
 app.use("/blog", blogRoutes);
 app.use("/webhook", botRoutes);
-// Blog
 app.use("*", (req, res, next) => {
   console.log("URL SAI");
   const err = new AppError(404, "fail", "undefined route");

@@ -14,7 +14,7 @@ const {
 exports.getMainPosts = async (req, res) => {
   sql.connect(DATABASE_SERVER_CONFIG_DEV_PRO, (err) => {
     if (err) {
-      res.status(500).send({});
+      res.status(500).send(err);
       return;
     }
     const request = new sql.Request();
@@ -23,7 +23,6 @@ exports.getMainPosts = async (req, res) => {
       const {
         recordset: [postData],
       } = data;
-      console.log("in blogController res", res);
       res.json(postData);
     });
   });
