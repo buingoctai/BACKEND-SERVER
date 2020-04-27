@@ -8,7 +8,7 @@ exports.submitArticle = async (req, res) => {
   const { author, title, content, topic, submitDate, imageUrl } = req.body;
   const id = uuidv4();
   sql.connect(DATABASE_SERVER_CONFIG_DEV, (err) => {
-    if (err) res.status(500).send({});
+    if (err) res.status(500).send(err);
     const request = new sql.Request();
     request.query(
       INSERT_ARTICLE.replace("IdValue", id)

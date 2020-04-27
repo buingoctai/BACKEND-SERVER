@@ -38,7 +38,7 @@ exports.getFeaturedPosts = async (req, res) => {
     featuredLabels.forEach((item) => {
       sql.connect(DATABASE_SERVER_CONFIG_DEV, (err) => {
         if (err) {
-          res.status(500).send({});
+          res.status(500).send(err);
           return;
         }
         const request = new sql.Request();
@@ -75,7 +75,7 @@ exports.getAllPost = async (req, res) => {
   const callSearching = new Promise((resolve, reject) => {
     sql.connect(DATABASE_SERVER_CONFIG_DEV, (err) => {
       if (err) {
-        res.status(500).send({});
+        res.status(500).send(err);
         return;
       }
       const request = new sql.Request();
