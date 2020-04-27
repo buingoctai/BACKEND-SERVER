@@ -4,10 +4,10 @@ info:
   description: "A simple Google Cloud Endpoints API example."
   title: "Endpoints Example"
   version: "1.0.0"
-host: "nodejscontentcollection.appspot.com"
+host: "nodejs-server-273711.appspot.com"
 # [END swagger]
 x-google-endpoints:
-  - name: "nodejscontentcollection.appspot.com"
+  - name: "nodejs-server-273711.appspot.com"
     allowCors: "true"
 consumes:
   - "application/json"

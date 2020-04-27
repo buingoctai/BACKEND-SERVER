@@ -7,10 +7,6 @@ const app = express();
 app.options("*", cors());
 app.use(cors());
 app.use((req, res, next) => {
-  console.log("in set header");
-  console.log("in set header,req=", req);
-  console.log("in set header,res=", res);
-
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Headers",
