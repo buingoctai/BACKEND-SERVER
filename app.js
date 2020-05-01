@@ -1,24 +1,15 @@
+const sql = require("mssql");
+
+var request = require("request");
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const app = express();
-
+const constants = require("./utils/constants");
+const { DATABASE_SERVER_CONFIG_DEV_PRO } = constants;
 app.options("*", cors());
 app.use(cors());
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PATCH, PUT, DELETE, OPTIONS"
-  );
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  next();
-});
 
 const userRoutes = require("./routes/userRoutes");
 const adminRoutes = require("./routes/adminRoutes");
@@ -35,7 +26,18 @@ const limiter = rateLimit({
 });
 app.use("/api", limiter); // Limit request from the same API
 
-// Routes
+// CONNECT TO DAT5ABASE SERVER
+app.use("/", (req, res, next) => {
+  sql.connect(DATABASE_SERVER_CONFIG_DEV_PRO, (err) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json(err);
+    } else {
+      next();
+    }
+  });
+});
+// ROUTES
 app.use("/user", userRoutes);
 app.use("/admin", adminRoutes);
 app.use("/blog", blogRoutes);

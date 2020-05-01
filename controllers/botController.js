@@ -1,17 +1,16 @@
 var request = require("request");
 
 const constants = require("../utils/constants");
-const { VALIDATION_TOKEN, PAGE_ACCESS_TOKEN } = constants;
+const { FACEBOOK_DEV } = constants;
 
 exports.handleVerify = async (request, response) => {
-  if (request.query["hub.verify_token"] === VALIDATION_TOKEN) {
+  if (request.query["hub.verify_token"] === FACEBOOK_DEV.VALIDATION_TOKEN) {
     response.send(request.query["hub.challenge"]);
   }
   response.send("Error, wrong validation token");
 };
 
 exports.handleMsg = async (request, response) => {
-  console.log("req.body=", request.body);
   console.log("req.body.entry=", request.body.entry);
 
   var entries = request.body.entry;
@@ -24,7 +23,10 @@ exports.handleMsg = async (request, response) => {
       if (message.message) {
         if (message.message.text) {
           var text = message.message.text;
-          handleMessage(senderId, "Hello!! I'm a bot. Your message: " + text);
+          handleMessage(
+            senderId,
+            "Hello Admin Tài, có phải bạn nhắn tôi:" + text
+          );
         }
       }
     }
@@ -33,11 +35,11 @@ exports.handleMsg = async (request, response) => {
 };
 
 // Send msg to page
-function handleMessage(senderId, message) {
+const handleMessage = (senderId, message) => {
   request({
     url: "https://graph.facebook.com/v2.6/me/messages",
     qs: {
-      access_token: PAGE_ACCESS_TOKEN,
+      access_token: FACEBOOK_DEV.PAGE_ACCESS_TOKEN,
     },
     method: "POST",
     json: {
@@ -49,12 +51,12 @@ function handleMessage(senderId, message) {
       },
     },
   });
-}
+};
 
 exports.sendMessage = async (request, response) => {
-  console.log("in sendMsg=", request.body);
   const { message } = request.body;
-  const id_buingoctai_user = "3119991678020925";
+  const id_buingoctai_user = FACEBOOK_DEV.ADMIN_MESSENGER_ID;
+
   handleMessage(id_buingoctai_user, message);
   response.status(200).send({ message: "Thành công" });
 };

@@ -14,6 +14,10 @@ const INSERT_PERSONALIZED_INFORMS =
   "INSERT INTO PersonalizedInforms (UserId,TechList,AddList) VALUES ('UserIdValue','TechListValue','AddListValue')";
 const COUNT_USERNAME_OR_FBURL =
   "SELECT COUNT(*) AS TOTAL FROM Users WHERE Users.UserName='UserNameValue' OR Users.FbUrl='FbUrlValue'";
+const DELETE_ARTICLES = "DELETE FROM Articles WHERE Id IN (LIST_ID)";
+const UPDATE_ARTICLES =
+  "UPDATE Articles SET Author='AuthorValue',Title='TitleValue',Content='ContentValue',Topic='TopicValue',SubmitDate='SubmitDateValue',ImageUrl='ImageUrlValue'  WHERE Id=IdValue";
+
 const DATABASE_SERVER_CONFIG_DEV = {
   user: "taibn1",
   password: "LTD1996@",
@@ -28,9 +32,31 @@ const DATABASE_SERVER_CONFIG_DEV_PRO = {
   port: 1433,
   server: "contentcollection.database.windows.net",
 };
-const PAGE_ACCESS_TOKEN =
-  "EAAVvoN2edJABAJEqQ585UC7FDga1Ku02jazR2ZBvcY3TPnmTQYG88jSp4XD2PABoaOO2znzfoZACCpq06YMJJ7CKT7rLQE79Khhkbww6tw8x6nig6TfZB9I59CU2YSpgwxzvYsiOlNbeTcZBUGvfMBZBXOMUWYJ808POUfYBUhwZDZD";
-const VALIDATION_TOKEN = "TokenTuyChon";
+
+const FACEBOOK_DEV = {
+  VALIDATION_TOKEN: "TokenTuyChon",
+  PAGE_ACCESS_TOKEN:
+    "EAAVvoN2edJABAJEqQ585UC7FDga1Ku02jazR2ZBvcY3TPnmTQYG88jSp4XD2PABoaOO2znzfoZACCpq06YMJJ7CKT7rLQE79Khhkbww6tw8x6nig6TfZB9I59CU2YSpgwxzvYsiOlNbeTcZBUGvfMBZBXOMUWYJ808POUfYBUhwZDZD",
+  ADMIN_MESSENGER_ID: "3119991678020925",
+};
+
+const ERROR_CODE = {
+  200: "Success.",
+  201: "Success.",
+  202: "Success.",
+  204: "Delete Sucess.",
+  400: "Request Error.",
+  401: "UnAuthorized。",
+  403: "Access Forbidden",
+  404: "Not Found.",
+  406: "Format unavaiable.",
+  410: "Resource not exist.",
+  422: "Validation error.",
+  500: "Server error.",
+  502: "Gateway error.",
+  503: "Service unavaiable.",
+  504: "Timeout.",
+};
 
 module.exports = {
   PYTHON_SERVER_URL,
@@ -43,8 +69,10 @@ module.exports = {
   COUNT_USERNAME_OR_FBURL,
   COUNT_TOTAL_ARTICLE,
   FIND_ARTICLE_AS_PAGE,
+  DELETE_ARTICLES,
+  UPDATE_ARTICLES,
   DATABASE_SERVER_CONFIG_DEV,
   DATABASE_SERVER_CONFIG_DEV_PRO,
-  PAGE_ACCESS_TOKEN,
-  VALIDATION_TOKEN,
+  FACEBOOK_DEV,
+  ERROR_CODE,
 };
