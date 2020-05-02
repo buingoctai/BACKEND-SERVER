@@ -41,7 +41,7 @@ exports.getFeaturedPosts = async (req, res) => {
           const {
             recordset: [postData],
           } = data;
-          if (postData) {
+          if (!postData) {
             reject({ err: ERROR_CODE["410"], statusCode: 410 });
           }
           repsonse["data"].push(postData);

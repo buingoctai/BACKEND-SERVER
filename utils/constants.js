@@ -21,16 +21,16 @@ const UPDATE_ARTICLES =
 const DATABASE_SERVER_CONFIG_DEV = {
   user: "taibn1",
   password: "LTD1996@",
-  database: "The Content Collection App",
+  database: "homnaydocgi dev",
   port: 1433,
-  server: "127.0.0.1",
+  server: "homnaydocgi.database.windows.net",
 };
-const DATABASE_SERVER_CONFIG_DEV_PRO = {
+const DATABASE_SERVER_CONFIG_PRO = {
   user: "taibn1",
-  password: "CNY1996@",
-  database: "The Content Collection",
+  password: "LTD1996@",
+  database: "homnaydocgi pro",
   port: 1433,
-  server: "contentcollection.database.windows.net",
+  server: "homnaydocgi.database.windows.net",
 };
 
 const FACEBOOK_DEV = {
@@ -72,7 +72,7 @@ module.exports = {
   DELETE_ARTICLES,
   UPDATE_ARTICLES,
   DATABASE_SERVER_CONFIG_DEV,
-  DATABASE_SERVER_CONFIG_DEV_PRO,
+  DATABASE_SERVER_CONFIG_PRO,
   FACEBOOK_DEV,
   ERROR_CODE,
 };
