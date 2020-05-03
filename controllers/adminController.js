@@ -55,15 +55,6 @@ exports.updatePosts = async (req, res) => {
   const request = new sql.Request();
   const { author, title, content, topic, submitDate, imageUrl } = data;
 
-  console.log(
-    UPDATE_ARTICLES.replace("AuthorValue", author)
-      .replace("TitleValue", title)
-      .replace("ContentValue", content)
-      .replace("TopicValue", topic)
-      .replace("SubmitDateValue", submitDate)
-      .replace("ImageUrlValue", imageUrl)
-      .replace("IdValue", items[0])
-  );
   const updateFunc = new Promise((resolve, reject) => {
     for (let i = 0; i < items.length; i++) {
       request.query(
