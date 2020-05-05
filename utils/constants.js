@@ -3,12 +3,12 @@ const INSERT_USER_DATA =
   "INSERT INTO Users (Id,UserName, FbUrl, TechTxt,AddTxt) VALUES ('IdValue','UserNameValue', 'FbUrlValue', 'TechTxtValue', 'AddTxtValue')";
 const USER_FIND = "SELECT * FROM Users WHERE Id='IdValue'";
 const INSERT_ARTICLE =
-  "INSERT INTO Articles (Id, Author, Title, Content, Topic,SubmitDate, ImageUrl) VALUES ('IdValue',N'AuthorValue',N'TitleValue',N'ContentValue','TopicValue','SubmitDateValue','ImageValue')";
-const FIND_MAIN_ARTICLE = "SELECT * FROM Articles ORDER BY SubmitDate DESC";
+  "INSERT INTO Articles (Id, Author, Title, Content, Topic,SubmitDate, ImageUrl,Brief) VALUES ('IdValue',N'AuthorValue',N'TitleValue',N'ContentValue','TopicValue','SubmitDateValue','ImageValue',N'BriefValue')";
+const FIND_MAIN_ARTICLE = "SELECT Id,Author,Title,Brief,ImageUrl,SubmitDate FROM Articles ORDER BY SubmitDate DESC";
 const FIND_FEATURED_ARTICLE =
-  "SELECT TOP 1 * FROM Articles WHERE Articles.Topic='LabelValue' ORDER BY SubmitDate DESC";
+  "SELECT TOP 1 Id,Author,Title,Brief,Topic,ImageUrl,SubmitDate FROM Articles WHERE Articles.Topic='LabelValue' ORDER BY SubmitDate DESC";
 const FIND_ARTICLE_AS_PAGE =
-  "SELECT * FROM Articles ORDER BY orderByValue orderTypeValue OFFSET startValue ROWS FETCH NEXT pageSizeValue ROWS ONLY";
+  "SELECT Id,Author,Title,Brief,Topic,ImageUrl, SubmitDate FROM Articles ORDER BY orderByValue orderTypeValue OFFSET startValue ROWS FETCH NEXT pageSizeValue ROWS ONLY";
 const COUNT_TOTAL_ARTICLE = "SELECT COUNT(*) FROM Articles";
 const INSERT_PERSONALIZED_INFORMS =
   "INSERT INTO PersonalizedInforms (UserId,TechList,AddList) VALUES ('UserIdValue','TechListValue','AddListValue')";
@@ -16,8 +16,8 @@ const COUNT_USERNAME_OR_FBURL =
   "SELECT COUNT(*) AS TOTAL FROM Users WHERE Users.UserName='UserNameValue' OR Users.FbUrl='FbUrlValue'";
 const DELETE_ARTICLES = "DELETE FROM Articles WHERE Id IN (LIST_ID)";
 const UPDATE_ARTICLES =
-  "UPDATE Articles SET Author=N'AuthorValue',Title=N'TitleValue',Content=N'ContentValue',Topic='TopicValue',SubmitDate='SubmitDateValue',ImageUrl='ImageUrlValue'  WHERE Id=IdValue";
-
+  "UPDATE Articles SET Author=N'AuthorValue',Title=N'TitleValue',Content=N'ContentValue',Topic='TopicValue',SubmitDate='SubmitDateValue',ImageUrl='ImageUrlValue',Brief='BriefValue'  WHERE Id=IdValue";
+const FIND_DETAIL_POST = "SELECT Content FROM Articles WHERE Id='IdValue'";
 const DATABASE_SERVER_CONFIG_DEV = {
   user: "taibn1",
   password: "LTD1996@",
@@ -71,6 +71,7 @@ module.exports = {
   FIND_ARTICLE_AS_PAGE,
   DELETE_ARTICLES,
   UPDATE_ARTICLES,
+  FIND_DETAIL_POST,
   DATABASE_SERVER_CONFIG_DEV,
   DATABASE_SERVER_CONFIG_PRO,
   FACEBOOK_DEV,

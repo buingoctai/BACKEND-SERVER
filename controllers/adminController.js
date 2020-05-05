@@ -11,7 +11,16 @@ const {
 
 exports.submitArticle = async (req, res) => {
   const { author, title, content, topic, submitDate, imageUrl } = req.body;
+  const subContentList = content.split(".");
+  let brief = "";
+  if (subContentList.length < 2) {
+    brief = subContentList[0];
+  }
+  else {
+    brief = subContentList[0].concat(`.${subContentList[1]}`);
+  }
   const id = uuidv4();
+
   sql.connect(DATABASE_SERVER_CONFIG_DEV, (err) => {
     if (err) res.status(500).send(err);
     const request = new sql.Request();
@@ -22,7 +31,8 @@ exports.submitArticle = async (req, res) => {
         .replace("ContentValue", content)
         .replace("TopicValue", topic)
         .replace("SubmitDateValue", submitDate)
-        .replace("ImageValue", imageUrl),
+        .replace("ImageValue", imageUrl)
+        .replace("BriefValue", brief),
       (err) => {
         if (err) {
           res.status(500).send();
@@ -54,6 +64,14 @@ exports.updatePosts = async (req, res) => {
   const { items, data } = req.body;
   const request = new sql.Request();
   const { author, title, content, topic, submitDate, imageUrl } = data;
+  const subContentList = content.split(".");
+  let brief = "";
+  if (subContentList.length < 2) {
+    brief = subContentList[0];
+  }
+  else {
+    brief = subContentList[0].concat(`.${subContentList[1]}`);
+  }
 
   const updateFunc = new Promise((resolve, reject) => {
     for (let i = 0; i < items.length; i++) {
@@ -64,6 +82,7 @@ exports.updatePosts = async (req, res) => {
           .replace("TopicValue", topic)
           .replace("SubmitDateValue", submitDate)
           .replace("ImageUrlValue", imageUrl)
+          .replace("BriefValue", brief)
           .replace("IdValue", `'${items[i]}'`),
         (err) => {
           if (err) {

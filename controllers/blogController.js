@@ -6,6 +6,7 @@ const {
   FIND_FEATURED_ARTICLE,
   FIND_ARTICLE_AS_PAGE,
   COUNT_TOTAL_ARTICLE,
+  FIND_DETAIL_POST,
   ERROR_CODE,
 } = constants;
 
@@ -99,3 +100,20 @@ exports.getAllPost = async (req, res) => {
       res.json(err);
     });
 };
+
+
+exports.getDetailPost = async (req, res) => {
+  const { id } = req.body;
+  const request = new sql.Request();
+
+  request.query(FIND_DETAIL_POST.replace("IdValue", id), (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json(500);
+    }
+    const {
+      recordset: [postData],
+    } = data;
+    res.json(postData);
+  });
+}
