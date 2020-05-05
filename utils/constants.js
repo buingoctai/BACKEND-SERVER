@@ -4,7 +4,8 @@ const INSERT_USER_DATA =
 const USER_FIND = "SELECT * FROM Users WHERE Id='IdValue'";
 const INSERT_ARTICLE =
   "INSERT INTO Articles (Id, Author, Title, Content, Topic,SubmitDate, ImageUrl,Brief) VALUES ('IdValue',N'AuthorValue',N'TitleValue',N'ContentValue','TopicValue','SubmitDateValue','ImageValue',N'BriefValue')";
-const FIND_MAIN_ARTICLE = "SELECT Id,Author,Title,Brief,ImageUrl,SubmitDate FROM Articles ORDER BY SubmitDate DESC";
+const FIND_MAIN_ARTICLE =
+  "SELECT Id,Author,Title,Brief,ImageUrl,SubmitDate FROM Articles ORDER BY SubmitDate DESC";
 const FIND_FEATURED_ARTICLE =
   "SELECT TOP 1 Id,Author,Title,Brief,Topic,ImageUrl,SubmitDate FROM Articles WHERE Articles.Topic='LabelValue' ORDER BY SubmitDate DESC";
 const FIND_ARTICLE_AS_PAGE =
