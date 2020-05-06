@@ -17,7 +17,7 @@ const COUNT_USERNAME_OR_FBURL =
   "SELECT COUNT(*) AS TOTAL FROM Users WHERE Users.UserName='UserNameValue' OR Users.FbUrl='FbUrlValue'";
 const DELETE_ARTICLES = "DELETE FROM Articles WHERE Id IN (LIST_ID)";
 const UPDATE_ARTICLES =
-  "UPDATE Articles SET Author=N'AuthorValue',Title=N'TitleValue',Content=N'ContentValue',Topic='TopicValue',SubmitDate='SubmitDateValue',ImageUrl='ImageUrlValue',Brief='BriefValue'  WHERE Id=IdValue";
+  "UPDATE Articles SET Author=N'AuthorValue',Title=N'TitleValue',Content=N'ContentValue',Topic='TopicValue',SubmitDate='SubmitDateValue',ImageUrl='ImageUrlValue',Brief=N'BriefValue'  WHERE Id=IdValue";
 const FIND_DETAIL_POST = "SELECT Content FROM Articles WHERE Id='IdValue'";
 const DATABASE_SERVER_CONFIG_DEV = {
   user: "taibn1",
