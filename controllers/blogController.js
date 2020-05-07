@@ -8,6 +8,7 @@ const {
   COUNT_TOTAL_ARTICLE,
   FIND_DETAIL_POST,
   FIND_ALL_TOPIC,
+  FIND_ARTICLE_AS_TOPIC,
   ERROR_CODE,
 } = constants;
 
@@ -102,7 +103,6 @@ exports.getAllPost = async (req, res) => {
     });
 };
 
-
 exports.getDetailPost = async (req, res) => {
   const { id } = req.body;
   const request = new sql.Request();
@@ -117,7 +117,7 @@ exports.getDetailPost = async (req, res) => {
     } = data;
     res.json(postData);
   });
-}
+};
 
 exports.getAllTopic = async (req, res) => {
   let response = [];
@@ -128,13 +128,28 @@ exports.getAllTopic = async (req, res) => {
       res.statusCode = 500;
       res.json(500);
     }
-    const {
-      recordset,
-    } = data;
-    recordset.map(item => {
+    const { recordset } = data;
+    recordset.map((item) => {
       response.push(item.Topic);
     });
 
     res.json(response.filter((a, b) => response.indexOf(a) === b));
   });
-}
+};
+
+exports.getFollowTopic = async (req, res) => {
+  const { topicName } = req.body;
+  const request = new sql.Request();
+
+  request.query(
+    FIND_ARTICLE_AS_TOPIC.replace("LabelValue", topicName),
+    (err, data) => {
+      if (err) {
+        res.statusCode = 500;
+        res.json(500);
+      }
+      const { recordset } = data;
+      res.json({ data: recordset });
+    }
+  );
+};

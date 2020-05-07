@@ -20,6 +20,8 @@ const UPDATE_ARTICLES =
   "UPDATE Articles SET Author=N'AuthorValue',Title=N'TitleValue',Content=N'ContentValue',Topic='TopicValue',SubmitDate='SubmitDateValue',ImageUrl='ImageUrlValue',Brief=N'BriefValue'  WHERE Id=IdValue";
 const FIND_DETAIL_POST = "SELECT Content FROM Articles WHERE Id='IdValue'";
 const FIND_ALL_TOPIC = "SELECT Topic FROM Articles";
+const FIND_ARTICLE_AS_TOPIC =
+  "SELECT Id,Author,Title,Brief,Topic,ImageUrl, SubmitDate FROM Articles WHERE Articles.Topic='LabelValue'";
 const DATABASE_SERVER_CONFIG_DEV = {
   user: "taibn1",
   password: "LTD1996@",
@@ -75,6 +77,7 @@ module.exports = {
   UPDATE_ARTICLES,
   FIND_DETAIL_POST,
   FIND_ALL_TOPIC,
+  FIND_ARTICLE_AS_TOPIC,
   DATABASE_SERVER_CONFIG_DEV,
   DATABASE_SERVER_CONFIG_PRO,
   FACEBOOK_DEV,
