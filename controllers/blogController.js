@@ -7,6 +7,7 @@ const {
   FIND_ARTICLE_AS_PAGE,
   COUNT_TOTAL_ARTICLE,
   FIND_DETAIL_POST,
+  FIND_ALL_TOPIC,
   ERROR_CODE,
 } = constants;
 
@@ -115,5 +116,25 @@ exports.getDetailPost = async (req, res) => {
       recordset: [postData],
     } = data;
     res.json(postData);
+  });
+}
+
+exports.getAllTopic = async (req, res) => {
+  let response = [];
+  const request = new sql.Request();
+
+  request.query(FIND_ALL_TOPIC, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json(500);
+    }
+    const {
+      recordset,
+    } = data;
+    recordset.map(item => {
+      response.push(item.Topic);
+    });
+
+    res.json(response.filter((a, b) => response.indexOf(a) === b));
   });
 }

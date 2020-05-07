@@ -7,5 +7,6 @@ router.post("/mainPosts", blogController.getMainPosts);
 router.post("/featuredPosts", blogController.getFeaturedPosts);
 router.post("/allPost", blogController.getAllPost);
 router.post("/getDetailPost", blogController.getDetailPost);
+router.post("/getAllTopic", blogController.getAllTopic);
 
 module.exports = router;

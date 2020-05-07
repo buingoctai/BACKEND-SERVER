@@ -19,6 +19,7 @@ const DELETE_ARTICLES = "DELETE FROM Articles WHERE Id IN (LIST_ID)";
 const UPDATE_ARTICLES =
   "UPDATE Articles SET Author=N'AuthorValue',Title=N'TitleValue',Content=N'ContentValue',Topic='TopicValue',SubmitDate='SubmitDateValue',ImageUrl='ImageUrlValue',Brief=N'BriefValue'  WHERE Id=IdValue";
 const FIND_DETAIL_POST = "SELECT Content FROM Articles WHERE Id='IdValue'";
+const FIND_ALL_TOPIC = "SELECT Topic FROM Articles";
 const DATABASE_SERVER_CONFIG_DEV = {
   user: "taibn1",
   password: "LTD1996@",
@@ -73,6 +74,7 @@ module.exports = {
   DELETE_ARTICLES,
   UPDATE_ARTICLES,
   FIND_DETAIL_POST,
+  FIND_ALL_TOPIC,
   DATABASE_SERVER_CONFIG_DEV,
   DATABASE_SERVER_CONFIG_PRO,
   FACEBOOK_DEV,
