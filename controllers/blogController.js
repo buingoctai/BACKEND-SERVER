@@ -9,6 +9,7 @@ const {
   FIND_DETAIL_POST,
   FIND_ALL_TOPIC,
   FIND_ARTICLE_AS_TOPIC,
+  SEARCH_ARTICLES,
   ERROR_CODE,
 } = constants;
 
@@ -153,3 +154,23 @@ exports.getFollowTopic = async (req, res) => {
     }
   );
 };
+
+
+exports.searchArticles=async (req,res)=>{
+  const {searchTxt}=req.body;
+  const request = new sql.Request();
+
+   request.query(
+    SEARCH_ARTICLES.replace("titleValue", searchTxt)
+    .replace("authorValue", searchTxt)
+      .replace("contentValue", searchTxt),
+    (err, data) => {
+      if (err) {
+        res.statusCode = 500;
+        res.json(500);
+      }
+      const { recordset } = data;
+      res.json({ data: recordset });
+    }
+  );
+}
