@@ -22,8 +22,13 @@ const FIND_DETAIL_POST = "SELECT Content FROM Articles WHERE Id='IdValue'";
 const FIND_ALL_TOPIC = "SELECT Topic FROM Articles";
 const FIND_ARTICLE_AS_TOPIC =
   "SELECT Id,Author,Title,Brief,Topic,ImageUrl, SubmitDate FROM Articles WHERE Articles.Topic='LabelValue'";
-const SEARCH_ARTICLES=
-"SELECT Id,Author,Title,Brief,Topic,ImageUrl, SubmitDate FROM Articles WHERE Title LIKE '%titleValue%' OR Author LIKE '%authorValue%' OR Content LIKE '%contentValue%'";
+const SEARCH_ARTICLES =
+  "SELECT Id,Author,Title,Brief,Topic,ImageUrl, SubmitDate FROM Articles WHERE Title LIKE '%titleValue%' OR Author LIKE '%authorValue%' OR Content LIKE '%contentValue%'";
+
+const FIND_ALL_ARTICLES_CRAWL =
+  "SELECT * FROM CRAWLER_ARTICLE ORDER BY orderByValue orderTypeValue OFFSET startValue ROWS FETCH NEXT pageSizeValue ROWS ONLY";
+const COUNT_TOTAL_ARTICLE_CRAWL = "SELECT COUNT(*) FROM CRAWLER_ARTICLE";
+
 const DATABASE_SERVER_CONFIG_DEV = {
   user: "taibn1",
   password: "LTD1996@",
@@ -81,6 +86,8 @@ module.exports = {
   FIND_ALL_TOPIC,
   FIND_ARTICLE_AS_TOPIC,
   SEARCH_ARTICLES,
+  FIND_ALL_ARTICLES_CRAWL,
+  COUNT_TOTAL_ARTICLE_CRAWL,
   DATABASE_SERVER_CONFIG_DEV,
   DATABASE_SERVER_CONFIG_PRO,
   FACEBOOK_DEV,
