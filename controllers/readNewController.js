@@ -53,7 +53,7 @@ exports.createAudioArticle = async (req, res) => {
   const subContentList = text.split(".");
   const contentGroup = [];
   const audioGroup = [
-    "https://static.openfpt.vn/text2speech-v5/short/2020-05-18/banmai.0.48157a39971f1223ae5b665f0ad12c10.mp3",
+    "https://static.openfpt.vn/text2speech-v5/short/2020-06-17/banmai.0.47cfbfdc06230074ecec599773067e0d.mp3",
   ];
 
   let subContent = subContentList[0];
@@ -79,7 +79,7 @@ exports.createAudioArticle = async (req, res) => {
     request
       .post("https://api.fpt.ai/hmi/tts/v5")
       .send(contentGroup[i])
-      .set("api-key", "CBLvzIiqo1Z59C91KxEy1svZZ7vxwT9V")
+      .set("api-key", "B7WZOaKMXF3vlWKV2jRDfdr8733vpboU")
       .set("voice", "banmai")
       .end((err, data) => {
         console.log("data", data.text);
