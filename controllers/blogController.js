@@ -10,6 +10,7 @@ const {
   FIND_ALL_TOPIC,
   FIND_ARTICLE_AS_TOPIC,
   SEARCH_ARTICLES,
+  FIND_ARTICLES_BELONG_IN_LIST_ID,
   ERROR_CODE,
 } = constants;
 
@@ -155,14 +156,13 @@ exports.getFollowTopic = async (req, res) => {
   );
 };
 
-
-exports.searchArticles=async (req,res)=>{
-  const {searchTxt}=req.body;
+exports.searchArticles = async (req, res) => {
+  const { searchTxt } = req.body;
   const request = new sql.Request();
 
-   request.query(
+  request.query(
     SEARCH_ARTICLES.replace("titleValue", searchTxt)
-    .replace("authorValue", searchTxt)
+      .replace("authorValue", searchTxt)
       .replace("contentValue", searchTxt),
     (err, data) => {
       if (err) {
@@ -173,4 +173,25 @@ exports.searchArticles=async (req,res)=>{
       res.json({ data: recordset });
     }
   );
-}
+};
+
+exports.getSavedPosts = async (req, res) => {
+  const { listId } = req.body;
+  let stringListId = `'${listId[0]}'`;
+  for (i = 1; i < listId.length; i++) {
+    stringListId = stringListId.concat(",", `'${listId[i]}'`);
+  }
+
+  const request = new sql.Request();
+  request.query(
+    FIND_ARTICLES_BELONG_IN_LIST_ID.replace("ListIdValue", stringListId),
+    (err, data) => {
+      if (err) {
+        res.statusCode = 500;
+        res.json(500);
+      }
+      const { recordset } = data;
+      res.json({ data: recordset });
+    }
+  );
+};

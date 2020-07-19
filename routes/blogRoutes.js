@@ -9,5 +9,6 @@ router.post("/getDetailPost", blogController.getDetailPost);
 router.post("/getAllTopic", blogController.getAllTopic);
 router.post("/getFollowTopic", blogController.getFollowTopic);
 router.post("/searchArticles", blogController.searchArticles);
+router.post("/getSavedPosts", blogController.getSavedPosts);
 
 module.exports = router;

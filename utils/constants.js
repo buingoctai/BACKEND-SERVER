@@ -32,6 +32,10 @@ const INSER_ARTICLE_CRAWL =
   "INSERT INTO CRAWLER_AUDIO (ArticleId, AudioUrl) VALUES ('ArticleIdValue','AudioUrlValue')";
 const FIND_AUDIO_ARTICLE_CRAWL =
   "SELECT AudioUrl FROM CRAWLER_AUDIO WHERE ArticleId='IdValue'";
+
+const FIND_ARTICLES_BELONG_IN_LIST_ID =
+  "SELECT Id,Author,Title,Brief,Topic,ImageUrl, SubmitDate FROM Articles WHERE Id IN (ListIdValue)";
+
 const DATABASE_SERVER_CONFIG_DEV = {
   user: "taibn1",
   password: "LTD1996@",
@@ -93,6 +97,7 @@ module.exports = {
   COUNT_TOTAL_ARTICLE_CRAWL,
   INSER_ARTICLE_CRAWL,
   FIND_AUDIO_ARTICLE_CRAWL,
+  FIND_ARTICLES_BELONG_IN_LIST_ID,
   DATABASE_SERVER_CONFIG_DEV,
   DATABASE_SERVER_CONFIG_PRO,
   FACEBOOK_DEV,
