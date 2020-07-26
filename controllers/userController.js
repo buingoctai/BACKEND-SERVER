@@ -24,6 +24,11 @@ const vapidKeys = {
 
 webpush.setVapidDetails('mailto:example@yourdomain.org', vapidKeys.publicKey, vapidKeys.privateKey);
 
+//function to send the notification to the subscribed device
+const sendNotification = (subscription, dataToSend='') => {
+  webpush.sendNotification(subscription, dataToSend)
+}
+
 function createHash(input) {
   const md5sum = crypto.createHash('md5');
   md5sum.update(Buffer.from(input));
@@ -231,12 +236,14 @@ exports.handlePushNotificationSubscription = (req, res) => {
   const subscriptionRequest = req.body.data;
   const susbscriptionId = createHash(JSON.stringify(subscriptionRequest));
   subscriptions[susbscriptionId] = subscriptionRequest;
+
   res.status(201).json({ id: susbscriptionId });
 }
 
 exports.sendPushNotification = (req, res) => {
   const subscriptionId = req.params.id;
-  const pushSubscription = subscriptions[subscriptionId];
+  const pushSubscription = Object.values(subscriptions)[0];
+  console.log({pushSubscription})
   webpush
     .sendNotification(
       pushSubscription,
