@@ -72,6 +72,12 @@ const ERROR_CODE = {
   504: "Timeout.",
 };
 
+/**
+ * Notification
+ */
+const GET_ALL_SUBSCRITION = "SELECT subscription FROM Subscription";
+const INSERT_SUBSCRITION = "INSERT INTO Noti_table (id, subscription) VALUES ('id_value','subscription_value')";
+
 module.exports = {
   PYTHON_SERVER_URL,
   INSERT_USER_DATA,
@@ -97,4 +103,6 @@ module.exports = {
   DATABASE_SERVER_CONFIG_PRO,
   FACEBOOK_DEV,
   ERROR_CODE,
+  GET_ALL_SUBSCRITION,
+  INSERT_SUBSCRITION
 };

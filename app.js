@@ -16,6 +16,7 @@ const adminRoutes = require("./routes/adminRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const botRoutes = require("./routes/botRoutes");
 const readNewRoutes = require("./routes/readNewRoutes");
+const notifiRoutes = require("./routes/notificationRoutes");
 const AppError = require("./utils/appError");
 // Create app and integrate with many middleware
 app.use(helmet()); // Set security HTTP headers
@@ -44,6 +45,7 @@ app.use("/admin", adminRoutes);
 app.use("/blog", blogRoutes);
 app.use("/webhook", botRoutes);
 app.use("/readNew", readNewRoutes);
+app.use("/notifi", notifiRoutes);
 app.use("*", (req, res, next) => {
   console.log("URL SAI");
   const err = new AppError(404, "fail", "undefined route");
