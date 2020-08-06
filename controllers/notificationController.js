@@ -1,6 +1,7 @@
 /**
  * This controller use for working with service worker.
  */
+const sql = require("mssql");
 
 const constants = require("../utils/constants");
 const uuidv4 = require("uuid/v4");
@@ -35,22 +36,20 @@ exports.handlePushNotificationSubscription = (req, res) => {
     const data = req.body.data;
     var id_value = uuidv4();
     var subscription_value = data;
-    sql.connect(DATABASE_SERVER_CONFIG_DEV, (err) => {
-        if (err) res.status(500).send(err);
-        const request = new sql.Request();
-        request.query(
-            INSERT_SUBSCRITION
-                .replace("id_value", id_value)
-                .replace("subscription_value", subscription_value),
-            (err) => {
-                if (err) {
-                    res.status(500).send();
-                }
+    const request = new sql.Request();
+    request.query(
+        INSERT_SUBSCRITION
+            .replace("id_value", id_value)
+            .replace("subscription_value", subscription_value),
+        (err) => {
+            if (err) {
+                res.statusCode = 500;
+                res.json(err);
+            } else {
+                res.json();
             }
-        );
-    });
-
-    res.status(201).body('ok');
+        }
+    );
 }
 
 exports.sendPushNotification = (req, res) => {
@@ -75,30 +74,29 @@ exports.sendPushNotification = (req, res) => {
     // else 
     //     console.error('No subscription found!')
     // res.status(202).json({})
-    sql.connect(DATABASE_SERVER_CONFIG_DEV, (err) => {
-        if (err) res.status(500).send(err);
-        const request = new sql.Request();
-        request.query(GET_ALL_SUBSCRITION, (err, data) => {
-            if (err) {
-                res.statusCode = 500;
-                res.json(err);
-            }
-            for (i in data) {
-                webpush
-                    .sendNotification(
-                        data[i],
-                        JSON.stringify({
-                            title: 'Test',
-                            text: 'Some new data is here!!!',
-                            tag: 'new',
-                            url: '/one_page.html'
-                        })
-                    )
-                    .catch((err) => {
-                        console.log(err);
-                    });
-            }
-        });
-    })
-
+    const request = new sql.Request();
+    request.query(GET_ALL_SUBSCRITION, (err, data) => {
+        if (err) {
+            res.statusCode = 500;
+            res.json(err);
+        }
+        const { recordset } = data;
+        console.log("recordset=", recordset);
+        for (i in recordset) {
+            webpush
+                .sendNotification(
+                    JSON.parse(recordset[i].subscription),
+                    JSON.stringify({
+                        title: 'Testxxf',
+                        text: 'Some new data is here!!!',
+                        tag: 'new',
+                        url: '/one_page.html'
+                    })
+                )
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+        res.json('');
+    });
 }

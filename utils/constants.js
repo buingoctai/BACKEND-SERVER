@@ -76,7 +76,7 @@ const ERROR_CODE = {
  * Notification
  */
 const GET_ALL_SUBSCRITION = "SELECT subscription FROM Subscription";
-const INSERT_SUBSCRITION = "INSERT INTO Noti_table (id, subscription) VALUES ('id_value','subscription_value')";
+const INSERT_SUBSCRITION = "INSERT INTO Subscription (id, subscription) VALUES ('id_value','subscription_value')";
 
 module.exports = {
   PYTHON_SERVER_URL,
