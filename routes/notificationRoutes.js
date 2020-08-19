@@ -3,7 +3,7 @@ const router = express.Router();
 const notificationController = require("./../controllers/notificationController");
 
 router.post("/saveSubscription", notificationController.saveSubscription);
-router.get(
+router.post(
   "/sendNotificationToAll",
   notificationController.sendNotificationToAll
 );

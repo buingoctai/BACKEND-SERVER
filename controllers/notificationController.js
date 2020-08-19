@@ -57,16 +57,16 @@ exports.deleteSubscription = (req, res) => {
   );
 };
 
-const performSendNotification = (subscriptionList) => {
+const performSendNotification = ({ subscriptionList, title }) => {
   for (index in subscriptionList) {
     webpush
       .sendNotification(
         JSON.parse(subscriptionList[index].Subscription),
         JSON.stringify({
-          title: "Testxxf",
-          text: "Some new data is here!!!",
+          title: "Bài viết mới",
+          text: title,
           tag: "new",
-          url: "/one_page.html",
+          url: "/home",
         })
       )
       .catch((err) => {
@@ -76,7 +76,9 @@ const performSendNotification = (subscriptionList) => {
 };
 
 exports.sendNotificationToAll = (req, res) => {
+  const { title } = req.body;
   const request = new sql.Request();
+
   request.query(GET_ALL_SUBSCRITION, (err, data) => {
     if (err) {
       res.statusCode = 500;
@@ -84,7 +86,7 @@ exports.sendNotificationToAll = (req, res) => {
     }
     const { recordset: subscriptionList } = data;
 
-    performSendNotification(subscriptionList);
+    performSendNotification({ subscriptionList, title });
     res.json("");
   });
 };
