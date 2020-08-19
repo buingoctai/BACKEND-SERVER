@@ -184,7 +184,7 @@ exports.getSavedPosts = async (req, res) => {
 
   const request = new sql.Request();
   request.query(
-    FIND_ARTICLES_BELONG_IN_LIST_ID.replace("ListIdValue", stringListId),
+    FIND_ARTICLES_BELONG_IN_LIST_ID.replace("LIST_ID", stringListId),
     (err, data) => {
       if (err) {
         res.statusCode = 500;

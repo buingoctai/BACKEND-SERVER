@@ -43,7 +43,7 @@ app.use("/admin", adminRoutes);
 app.use("/blog", blogRoutes);
 app.use("/webhook", botRoutes);
 app.use("/readNew", readNewRoutes);
-app.use("/notifi", notifiRoutes);
+app.use("/notification", notifiRoutes);
 app.use("*", (req, res, next) => {
   console.log("URL SAI");
   const err = new AppError(404, "fail", "undefined route");

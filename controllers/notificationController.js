@@ -1,102 +1,90 @@
-/**
- * This controller use for working with service worker.
- */
 const sql = require("mssql");
-
 const constants = require("../utils/constants");
 const uuidv4 = require("uuid/v4");
-const subscriptions = {};
-var crypto = require('crypto');
-const webpush = require('web-push');
-
-const vapidKeys = {
-    privateKey: 'bdSiNzUhUP6piAxLH-tW88zfBlWWveIx0dAsDO66aVU',
-    publicKey:
-        'BIN2Jc5Vmkmy-S3AUrcMlpKxJpLeVRAfu9WBqUbJ70SJOCWGCGXKY-Xzyh7HDr6KbRDGYHjqZ06OcS3BjD7uAm8'
-};
-
+const webpush = require("web-push");
 const {
-    GET_ALL_SUBSCRITION,
-    INSERT_SUBSCRITION,
+  GET_ALL_SUBSCRITION,
+  INSERT_SUBSCRITION,
+  DELETE_SUBSCRIPTION,
 } = constants;
 
-webpush.setVapidDetails('mailto:example@yourdomain.org', vapidKeys.publicKey, vapidKeys.privateKey);
+const vapidKeys = {
+  privateKey: "bdSiNzUhUP6piAxLH-tW88zfBlWWveIx0dAsDO66aVU",
+  publicKey:
+    "BIN2Jc5Vmkmy-S3AUrcMlpKxJpLeVRAfu9WBqUbJ70SJOCWGCGXKY-Xzyh7HDr6KbRDGYHjqZ06OcS3BjD7uAm8",
+};
 
-// function createHash(input) {
-//     const md5sum = crypto.createHash('md5');
-//     md5sum.update(Buffer.from(input));
-//     return md5sum.digest('hex');
-// }
+webpush.setVapidDetails(
+  "mailto:example@yourdomain.org",
+  vapidKeys.publicKey,
+  vapidKeys.privateKey
+);
 
-exports.handlePushNotificationSubscription = (req, res) => {
-    // const subscriptionRequest = req.body.data;
-    // const susbscriptionId = createHash(JSON.stringify(subscriptionRequest));
-    // subscriptions[susbscriptionId] = subscriptionRequest;
-    // res.status(201).json({ id: susbscriptionId });
-    const data = req.body.data;
-    var id_value = uuidv4();
-    var subscription_value = data;
-    const request = new sql.Request();
-    request.query(
-        INSERT_SUBSCRITION
-            .replace("id_value", id_value)
-            .replace("subscription_value", subscription_value),
-        (err) => {
-            if (err) {
-                res.statusCode = 500;
-                res.json(err);
-            } else {
-                res.json();
-            }
-        }
-    );
-}
+exports.saveSubscription = (req, res) => {
+  const subscriptionString = JSON.stringify(req.body);
+  const idValue = uuidv4();
+  const request = new sql.Request();
 
-exports.sendPushNotification = (req, res) => {
-    // const subscriptionId = req.params.id;
-    // const pushSubscription = Object.values(subscriptions)[0];
-    // console.log({pushSubscription})
-    // if (pushSubscription){
-    //     webpush
-    //         .sendNotification(
-    //             pushSubscription,
-    //             JSON.stringify({
-    //                 title: 'Test',
-    //                 text: 'Some new data is here!!!',
-    //                 tag: 'new',
-    //                 url: '/one_page.html'
-    //             })
-    //         )
-    //         .catch((err) => {
-    //             console.log(err);
-    //         });
-    // }
-    // else 
-    //     console.error('No subscription found!')
-    // res.status(202).json({})
-    const request = new sql.Request();
-    request.query(GET_ALL_SUBSCRITION, (err, data) => {
-        if (err) {
-            res.statusCode = 500;
-            res.json(err);
-        }
-        const { recordset } = data;
-        console.log("recordset=", recordset);
-        for (i in recordset) {
-            webpush
-                .sendNotification(
-                    JSON.parse(recordset[i].subscription),
-                    JSON.stringify({
-                        title: 'Testxxf',
-                        text: 'Some new data is here!!!',
-                        tag: 'new',
-                        url: '/one_page.html'
-                    })
-                )
-                .catch((err) => {
-                    console.log(err);
-                });
-        }
-        res.json('');
-    });
-}
+  request.query(
+    INSERT_SUBSCRITION.replace("idValue", idValue).replace(
+      "subscriptionValue",
+      subscriptionString
+    ),
+    (err) => {
+      if (err) {
+        res.statusCode = 500;
+        res.json(err);
+      } else {
+        res.json({ subscriptionId: idValue });
+      }
+    }
+  );
+};
+
+exports.deleteSubscription = (req, res) => {
+  const { subscriptionId } = req.body;
+  const request = new sql.Request();
+
+  request.query(
+    DELETE_SUBSCRIPTION.replace("idValue", subscriptionId),
+    (err) => {
+      if (err) {
+        res.statusCode = 500;
+        res.json(err);
+      }
+      res.json();
+    }
+  );
+};
+
+const performSendNotification = (subscriptionList) => {
+  for (index in subscriptionList) {
+    webpush
+      .sendNotification(
+        JSON.parse(subscriptionList[index].Subscription),
+        JSON.stringify({
+          title: "Testxxf",
+          text: "Some new data is here!!!",
+          tag: "new",
+          url: "/one_page.html",
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+};
+
+exports.sendNotificationToAll = (req, res) => {
+  const request = new sql.Request();
+  request.query(GET_ALL_SUBSCRITION, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json(err);
+    }
+    const { recordset: subscriptionList } = data;
+
+    performSendNotification(subscriptionList);
+    res.json("");
+  });
+};

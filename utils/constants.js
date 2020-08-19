@@ -24,7 +24,8 @@ const FIND_ARTICLE_AS_TOPIC =
   "SELECT Id,Author,Title,Brief,Topic,ImageUrl, SubmitDate FROM Articles WHERE Articles.Topic='LabelValue'";
 const SEARCH_ARTICLES =
   "SELECT Id,Author,Title,Brief,Topic,ImageUrl, SubmitDate FROM Articles WHERE Title LIKE '%titleValue%' OR Author LIKE '%authorValue%' OR Content LIKE '%contentValue%'";
-
+const FIND_ARTICLES_BELONG_IN_LIST_ID =
+  "SELECT Id,Author,Title,Brief,Topic,ImageUrl, SubmitDate FROM Articles WHERE Id IN (LIST_ID)";
 const FIND_ALL_ARTICLES_CRAWL =
   "SELECT * FROM CRAWLER_ARTICLE ORDER BY orderByValue orderTypeValue OFFSET startValue ROWS FETCH NEXT pageSizeValue ROWS ONLY";
 const COUNT_TOTAL_ARTICLE_CRAWL = "SELECT COUNT(*) FROM CRAWLER_ARTICLE";
@@ -75,9 +76,10 @@ const ERROR_CODE = {
 /**
  * Notification
  */
-const GET_ALL_SUBSCRITION = "SELECT subscription FROM Subscription";
-const INSERT_SUBSCRITION = "INSERT INTO Subscription (id, subscription) VALUES ('id_value','subscription_value')";
-
+const GET_ALL_SUBSCRITION = "SELECT Subscription FROM Subscription";
+const INSERT_SUBSCRITION =
+  "INSERT INTO Subscription (id, subscription) VALUES ('idValue','subscriptionValue')";
+const DELETE_SUBSCRIPTION = "DELETE FROM Subscription WHERE id='idValue'";
 module.exports = {
   PYTHON_SERVER_URL,
   INSERT_USER_DATA,
@@ -95,6 +97,7 @@ module.exports = {
   FIND_ALL_TOPIC,
   FIND_ARTICLE_AS_TOPIC,
   SEARCH_ARTICLES,
+  FIND_ARTICLES_BELONG_IN_LIST_ID,
   FIND_ALL_ARTICLES_CRAWL,
   COUNT_TOTAL_ARTICLE_CRAWL,
   INSER_ARTICLE_CRAWL,
@@ -104,5 +107,6 @@ module.exports = {
   FACEBOOK_DEV,
   ERROR_CODE,
   GET_ALL_SUBSCRITION,
-  INSERT_SUBSCRITION
+  INSERT_SUBSCRITION,
+  DELETE_SUBSCRIPTION,
 };

@@ -2,7 +2,11 @@ const express = require("express");
 const router = express.Router();
 const notificationController = require("./../controllers/notificationController");
 
-router.post("/subscription", notificationController.handlePushNotificationSubscription);
-router.get("/subscription", notificationController.sendPushNotification);
+router.post("/saveSubscription", notificationController.saveSubscription);
+router.get(
+  "/sendNotificationToAll",
+  notificationController.sendNotificationToAll
+);
+router.post("/deleteSubscription", notificationController.deleteSubscription);
 
 module.exports = router;
